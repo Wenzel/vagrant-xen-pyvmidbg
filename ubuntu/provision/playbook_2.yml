@@ -22,4 +22,5 @@
       when: vmi
     - include: libvmi.yml
       when: vmi
+    - include: vmidbg.yml
     - include: test_vm.yml
