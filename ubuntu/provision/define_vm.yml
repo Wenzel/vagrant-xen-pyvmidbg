@@ -1,0 +1,26 @@
+# require vars:
+# - vm_name
+# - vm_url
+# - vm_url_sha1
+# - vm_ram (optional)
+
+- name: "download {{ item.vm_name }} image"
+  get_url:
+    url: "{{ item.vm_url }}"
+    dest: "/data/images/{{ item.vm_name }}.qcow2"
+    checksum: "sha1:{{ item.vm_url_sha1 }}"
+
+- name: define VM in libvirt
+  virt:
+    name: "{{ item.vm_name }}"
+    command: define
+    xml: "{{ lookup('template', 'domain-template.xml.j2') }}"
+    uri: 'xen:///'
+
+- name: install libvmi config
+  blockinfile:
+    path: '/etc/libvmi.conf'
+    block: "{{ lookup('file', 'files/'+item.vm_name+'.conf')}}"
+    marker: ""
+    state: present
+    create: yes

@@ -1,0 +1,6 @@
+---
+- name: Install Xen
+  package:
+    name: "{{ item }}"
+  with_items:
+    - xen-system-amd64

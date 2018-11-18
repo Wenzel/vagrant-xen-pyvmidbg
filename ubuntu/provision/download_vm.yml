@@ -1,0 +1,5 @@
+---
+- name: download Windows image
+  get_url:
+    url: 'https://cloud.wzl.ovh/index.php/s/Ck8z3C52mpDqDCs/download'
+    dest: /var/lib/libvirt/images/win7x64.qcow2
