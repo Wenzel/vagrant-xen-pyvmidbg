@@ -16,6 +16,7 @@
         - htop
         - vim
         - wget
+        - ipython3
 
     - include: remote.yml
     - include: libvirt.yml
