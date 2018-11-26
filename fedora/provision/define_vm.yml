@@ -33,6 +33,17 @@
     dest: "/etc/libvmi/{{ item.vm_name}}-profile.json"
   when: vm_profile.stat.exists
 
+- name: check if vm has a sysmap
+  local_action: stat path="files/{{ item.vm_name }}.map"
+  register: sysmap
+  become: false
+
+- name: install vm sysmap
+  copy:
+    src: "files/{{ item.vm_name }}.map"
+    dest: "/etc/libvmi/{{ item.vm_name}}.map"
+  when: sysmap.stat.exists
+
 - name: install libvmi config entry
   blockinfile:
     path: '/etc/libvmi.conf'
