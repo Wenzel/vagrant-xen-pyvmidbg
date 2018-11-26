@@ -20,7 +20,6 @@
 
     - include: remote.yml
     - include: libvirt.yml
-      when: vmi
     - include: libvmi.yml
       when: vmi
     - include: vmidbg.yml
