@@ -1,0 +1,20 @@
+---
+- name: Install QEMU
+  package:
+    name: "{{ item }}"
+  with_items:
+    - qemu
+
+- name: install libvirt-python module to manage VMs
+  package:
+    name: python-libvirt
+
+- include: define_vm.yml
+  with_items:
+    - { vm_name: 'winxp', vm_url: 'https://www.dropbox.com/s/0zycew5u3xnf8m7/winxp.qcow2?dl=1', vm_url_sha1: '39870605162334b74110b9d810ede2c3460fb625' }
+    - { vm_name: 'win7', vm_url: 'https://www.dropbox.com/s/2affsti933237v3/win7x64.qcow2?dl=1', vm_url_sha1: '0c8d422053ef34109a53d067d71fd2c43435cb2f', vm_ram: '1500' }
+    - { vm_name: 'ubuntu16.04_i386', vm_url: 'https://www.dropbox.com/s/7p4fi3eca5ihlqy/ubuntu16.04_i386.qcow2?dl=1', vm_url_sha1: '143c8ab75a281d7b78f7f88b099608e168e19703', vm_ram: '1024' }
+    - { vm_name: 'ubuntu16.04', vm_url: 'https://www.dropbox.com/s/zexu4y97k50b9kj/ubuntu-16.04.qcow2?dl=1', vm_url_sha1: 'd77264d5b0dc243bb25c9041befd95bc4a529740', vm_ram: '1024' }
+
+- name: refresh libvirt pool
+  command: virsh -c xen:/// pool-refresh default

@@ -1,0 +1,64 @@
+---
+- name: install development tools
+  dnf:
+    name: '@development-tools'
+    state: latest
+
+- name: clone Xen source code
+  git:
+    repo: 'git://xenbits.xen.org/xen.git'
+    dest: /home/vagrant/xen
+    version: "{{ version }}"
+  become: false
+
+- name: install xen build dependencies with builddep
+  command: dnf builddep -y xen kernel
+  args:
+    warn: false
+
+- name: install Xen build dependencies
+  package:
+    name: "{{ item }}"
+  with_items:
+    - dev86
+    - glibc-devel.i686
+    - python
+    - python-devel
+    - python3
+    - python3-devel
+
+- name: configure Xen
+  command: ./configure --prefix=/usr --libdir=/usr/lib64 --enable-systemd
+  args:
+    chdir: /home/vagrant/xen
+  become: false
+
+- name: build Xen
+  command: make dist
+  args:
+    chdir: /home/vagrant/xen
+  become: false
+
+- name: install Xen
+  command: make install
+  args:
+    chdir: /home/vagrant/xen
+
+- name: rebuild dynamic linker cache
+  command: /sbin/ldconfig
+
+- name: update GRUB2
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: update GRUB to boot on Xen kernel by default
+  command: grub2-set-default 'Advanced options for Fedora (with Xen hypervisor)>Xen hypervisor, version 4.11>Fedora, with Xen 4.11 and Linux 4.16.3-301.fc28.x86_64'
+
+- name: enable Xen system services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - xen-init-dom0.service
+    - xendomains.service
+    - xenconsoled.service
+    - xenstored.service

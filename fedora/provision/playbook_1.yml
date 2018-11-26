@@ -1,0 +1,21 @@
+---
+- hosts: default
+  become: true
+  gather_facts: false
+  pre_tasks:
+    - name: install python and deps for ansible modules
+      raw: dnf install -y python2 python2-dnf libselinux-python
+    - name: check for virtualization extensions in cpuinfo
+      shell: egrep '(vmx|svm)' /proc/cpuinfo
+    - name: gather facts
+      setup:
+    - name: perform system upgrade
+      package:
+        name: '*'
+        state: latest
+  tasks:
+    - include: xen.yml
+      when: not source
+
+    - include: xen_source.yml
+      when: source

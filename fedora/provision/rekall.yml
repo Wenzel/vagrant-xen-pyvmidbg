@@ -1,0 +1,35 @@
+---
+- name: install development tools
+  dnf:
+    name: '@development-tools'
+    state: latest
+
+- name: install dependencies for rekall
+  package:
+    name: "{{ item }}"
+  with_items:
+    - python3-pip
+    - python3-devel
+    - ncurses-devel
+    - libstdc++-devel
+    - gcc-c++
+
+- name: updating pip for rekall
+  command: pip3 install --upgrade setuptools pip wheel
+
+- name: clone rekall
+  git:
+    repo: 'https://github.com/google/rekall'
+    dest: /home/vagrant/rekall
+  become: false
+
+- name: install rekall
+  command: "{{ item }}"
+  args:
+    chdir: "/home/vagrant"
+  with_items:
+    - 'pip3 install --editable rekall/rekall-lib'
+    - 'pip3 install --editable rekall/rekall-core'
+    - 'pip3 install --editable rekall/rekall-agent'
+    - 'pip3 install --editable rekall'
+    - 'pip3 install --upgrade pyasn1'

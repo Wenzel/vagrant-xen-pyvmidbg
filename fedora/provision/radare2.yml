@@ -1,0 +1,12 @@
+---
+- name: clone radare2
+  git:
+    repo: 'https://github.com/radare/radare2'
+    dest: /home/vagrant/radare2
+  become: false
+
+- name: install radare2
+  command: ./sys/install.sh
+  args:
+    chdir: "/home/vagrant/radare2"
+  become: false

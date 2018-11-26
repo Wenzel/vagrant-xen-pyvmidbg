@@ -1,0 +1,14 @@
+---
+- name: clone r2vmi
+  git:
+    repo: 'https://github.com/Wenzel/r2vmi'
+    dest: /home/vagrant/r2vmi
+  become: false
+
+- name: install r2vmi
+  command: make install
+  args:
+    chdir: "/home/vagrant/r2vmi"
+  environment:
+    PKG_CONFIG_PATH: '/usr/lib/pkgconfig'
+  become: false
