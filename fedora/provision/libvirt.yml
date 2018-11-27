@@ -5,7 +5,6 @@
   with_items:
     - libvirt-daemon
     - libvirt-daemon-xen
-    - libvirt-daemon-driver-xen
     - libvirt-daemon-config-network
     - libvirt-client
 
