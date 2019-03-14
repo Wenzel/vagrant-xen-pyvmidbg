@@ -4,6 +4,7 @@
     name: "{{ item }}"
   with_items:
     - git
+    - cmake
     - gcc
     - make
     - libtool
@@ -24,16 +25,16 @@
     dest: /home/vagrant/libvmi
   become: false
 
-- name: generate configure
-  command: ./autogen.sh
+- name: creates build directory
+  command: mkdir build
   args:
-    chdir: "/home/vagrant/libvmi"
+    chdir: "/home/vagrant/libvmi/"
   become: false
 
 - name: configure libvmi
-  command: ./configure --prefix=/usr --disable-kvm --enable-static=no
+  command: cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_KVM=OFF ..
   args:
-    chdir: "/home/vagrant/libvmi"
+    chdir: "/home/vagrant/libvmi/build"
   become: false
 
 - name: build libvmi
