@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
     # install VMI tools
     vmi = true
 
-    config.vm.synced_folder "../", "/vagrant/pyvmidbg",
+    config.vm.synced_folder "../../pyvmidbg", "/vagrant/pyvmidbg",
         :nfs => true,
         :nfs_version => 4
 
