@@ -7,6 +7,7 @@
     - libvirt-daemon-xen
     - libvirt-daemon-config-network
     - libvirt-client
+  when: ansible_distribution == 'Fedora'
 
 - name: add user to libvirt group
   user:
