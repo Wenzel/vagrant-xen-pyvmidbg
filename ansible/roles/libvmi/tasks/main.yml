@@ -26,16 +26,16 @@
     dest: /home/vagrant/libvmi
   become: false
 
-- name: generate configure
-  command: ./autogen.sh
-  args:
-    chdir: "/home/vagrant/libvmi"
-  become: false
+- name: create build directory
+  file:
+    path: /home/vagrant/libvmi/build
+    state: directory
+    owner: vagrant
 
 - name: configure libvmi
-  command: ./configure --prefix=/usr --disable-kvm --enable-static=no
+  command: cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_KVM=OFF ..
   args:
-    chdir: "/home/vagrant/libvmi"
+    chdir: "/home/vagrant/libvmi/build"
   become: false
 
 - name: build libvmi
