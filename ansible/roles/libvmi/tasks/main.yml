@@ -18,6 +18,7 @@
     - json-c-devel
     - libxc-devel
     - xen-devel
+  when: ansible_distribution == 'Fedora'
 
 - name: clone libvmi
   git:
@@ -61,6 +62,7 @@
     - python3-future
     - python3-pytest
     - libvirt-python3
+  when: ansible_distribution == 'Fedora'
 
 - name: clone libvmi python bindings
   git:
