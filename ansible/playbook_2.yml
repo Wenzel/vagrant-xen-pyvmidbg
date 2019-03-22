@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: all
   become: true
   pre_tasks:
     - name: test Xen hypervisor
@@ -7,7 +7,12 @@
         src: /sys/hypervisor/type
       register: hypertype
       failed_when: hypertype['content'] | b64decode | trim != "xen"
-  tasks:
+    - name: get xen version
+      shell: xl info | grep xen_version
+      register: xen_version
+    - name: display xen version
+      debug:
+        var: xen_version.stdout
     - name: install useful tools
       package:
         name: "{{ item }}"
@@ -17,10 +22,8 @@
         - vim
         - wget
         - ipython3
-
-    - include: remote.yml
-    - include: libvirt.yml
-    - include: libvmi.yml
-      when: vmi
-    - include: vmidbg.yml
-    - include: test_vm.yml
+  roles:
+    - libvirt
+    - libvmi
+    - pyvmidbg
+    - vm

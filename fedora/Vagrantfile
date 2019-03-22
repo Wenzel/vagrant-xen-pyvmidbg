@@ -2,24 +2,22 @@ Vagrant.configure(2) do |config|
     config.vm.box = "fedora/29-cloud-base"
 
     # build Xen from source
-    source = false
+    xen_src = false
     # version of Xen repo to checkout (tag, branch, etc...)
-    version = "stable-4.11"
+    xen_src_version = "stable-4.11"
     # install VMI tools
     vmi = true
 
-    # config.vm.synced_folder ".", "/vagrant", disabled: true
-    # config.vm.synced_folder "/home/wenzel/Projets/pyvmidbg", "/vagrant/pyvmidbg",
-    #     :nfs => true,
-    #     :nfs_version => 4
+    config.vm.synced_folder ".", "/vagrant", disabled: true
 
-    # config.vm.synced_folder "/home/wenzel/Projets/libvmi-python", "/vagrant/libvmi-python",
-    #     :nfs => true,
-    #     :nfs_version => 4
+    pyvmidbg_path = ""
+    config.vm.synced_folder pyvmidbg_path, "/vagrant/pyvmidbg",
+        :nfs => true,
+        :nfs_version => 4
 
     config.vm.provider :libvirt do |libvirt|
         libvirt.cpus = 2
-        libvirt.cpu_mode = 'host-model'
+        libvirt.cpu_mode = 'host-passthrough'
         libvirt.cpu_fallback = 'forbid'
         libvirt.memory = 2048
         libvirt.nic_model_type = "virtio"
@@ -31,10 +29,10 @@ Vagrant.configure(2) do |config|
         ansible.compatibility_mode = "2.0"
         # ansible.verbose =  '-vvv'
         # ansible.start_at_task =  ''
-        ansible.playbook = "provision/playbook_1.yml"
+        ansible.playbook = "../ansible/playbook_1.yml"
         ansible.extra_vars = {
-            'source': source,
-            'version': version,
+            'xen_src': xen_src,
+            'xen_src_version': xen_src_version,
         }
     end
 
@@ -44,7 +42,7 @@ Vagrant.configure(2) do |config|
         ansible.compatibility_mode = "2.0"
         # ansible.verbose =  '-vvv'
         # ansible.start_at_task =  ''
-        ansible.playbook = "provision/playbook_2.yml"
+        ansible.playbook = "../ansible/playbook_2.yml"
         ansible.extra_vars = {
             'vmi': vmi,
         }

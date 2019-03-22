@@ -1,0 +1,26 @@
+---
+- name: build vm with Packer
+  command: "packer build -var-file {{ item.packer_varfile }} {{ item.packer_template }}"
+  args:
+    chdir: "/home/vagrant/templates"
+  become: false
+
+- name: get qcow name
+  find:
+    path: "/home/vagrant/templates/output-qemu"
+  register: qemu_output
+
+- name: move qcow into libvirt pool
+  command: "mv {{ qemu_output.files[0].path }} /var/lib/libvirt/images/"
+
+- name: remove output-qemu
+  file:
+    path: /home/vagrant/templates/output-qemu
+    state: absent
+
+- name: define vm in libvirt
+  virt:
+    name: "{{ item.name }}"
+    command: define
+    xml: "{{ lookup('template', 'domain-template.xml.j2')}}"
+    uri: 'xen:///'

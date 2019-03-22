@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: all
   become: true
   gather_facts: false
   pre_tasks:
@@ -13,9 +13,7 @@
       package:
         name: '*'
         state: latest
-  tasks:
-    - include: xen.yml
-      when: not source
-
-    - include: xen_source.yml
-      when: source
+  roles:
+    - xen
+    - { role: "partition", when: ansible_distribution != 'Fedora' }
+    - remote

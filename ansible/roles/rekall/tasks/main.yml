@@ -3,6 +3,7 @@
   dnf:
     name: '@development-tools'
     state: latest
+  when: ansible_distribution == 'Fedora'
 
 - name: install dependencies for rekall
   package:
@@ -13,6 +14,7 @@
     - ncurses-devel
     - libstdc++-devel
     - gcc-c++
+  when: ansible_distribution == 'Fedora'
 
 - name: updating pip for rekall
   command: pip3 install --upgrade setuptools pip wheel

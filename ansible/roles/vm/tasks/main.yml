@@ -1,0 +1,18 @@
+---
+- include: packer.yml
+
+- name: install QEMU
+  package:
+    name: "{{ item }}"
+  with_items:
+    - qemu-system-x86
+  when: ansible_distribution == 'Fedora'
+
+- name: upload templates
+  synchronize:
+    src: files/templates
+    dest: /home/vagrant/
+
+- include: build.yml
+  with_items:
+    - { name: 'ubuntu-xenial-server-32', ram: '512', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
