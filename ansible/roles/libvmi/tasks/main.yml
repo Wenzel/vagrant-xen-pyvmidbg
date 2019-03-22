@@ -7,9 +7,9 @@
     - gcc
     - make
     - libtool
-    - automake
+    - cmake
     - pkg-config
-    - check
+    - check-devel
     - glib2-devel
     - libvirt-devel
     - bison
