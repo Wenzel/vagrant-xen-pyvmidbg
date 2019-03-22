@@ -1,0 +1,14 @@
+---
+- include: packer.yml
+
+- name: install QEMU
+  package:
+    name: "{{ item }}"
+  with_items:
+    - qemu-system-x86
+  when: ansible_distribution == 'Fedora'
+
+- name: upload templates
+  synchronize:
+    src: files/templates
+    dest: /home/vagrant/
