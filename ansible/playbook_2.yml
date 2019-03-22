@@ -13,7 +13,6 @@
     - name: display xen version
       debug:
         var: xen_version.stdout
-  tasks:
     - name: install useful tools
       package:
         name: "{{ item }}"
