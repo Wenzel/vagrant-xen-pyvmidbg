@@ -7,6 +7,12 @@
         src: /sys/hypervisor/type
       register: hypertype
       failed_when: hypertype['content'] | b64decode | trim != "xen"
+    - name: get xen version
+      shell: xl info | grep xen_version
+      register: xen_version
+    - name: display xen version
+      debug:
+        var: xen_version.stdout
   tasks:
     - name: install useful tools
       package:
