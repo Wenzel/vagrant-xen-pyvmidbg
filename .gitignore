@@ -1,1 +1,2 @@
-ubuntu/.vagrant/*
+# ansible
+*.retry
