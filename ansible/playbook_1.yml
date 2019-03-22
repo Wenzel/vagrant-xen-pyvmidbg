@@ -15,5 +15,5 @@
         state: latest
   roles:
     - xen
-    - partition
+    - { role: "partition", when: ansible_distribution != 'Fedora' }
     - remote
