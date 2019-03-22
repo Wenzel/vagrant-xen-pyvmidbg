@@ -1,5 +1,5 @@
 ---
-- name: Install Libvirt
+- name: install Libvirt
   package:
     name: "{{ item }}"
   with_items:
