@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: all
   become: true
   pre_tasks:
     - name: test Xen hypervisor
@@ -17,10 +17,7 @@
         - vim
         - wget
         - ipython3
-
-    - include: remote.yml
-    - include: libvirt.yml
-    - include: libvmi.yml
-      when: vmi
-    - include: vmidbg.yml
-    - include: test_vm.yml
+  roles:
+    - libvirt
+    - libvmi
+    - vmidbg
