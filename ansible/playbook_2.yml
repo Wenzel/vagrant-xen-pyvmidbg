@@ -27,3 +27,9 @@
     - libvmi
     - pyvmidbg
     - vm
+
+  post_tasks:
+    - name: clear packer cache to free disk space
+      file:
+        path: "/home/vagrant/templates/packer_cache"
+        state: absent
