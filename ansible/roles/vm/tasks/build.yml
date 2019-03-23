@@ -31,13 +31,13 @@
     state: directory
 
 - name: check if vm has a rekall profile
-  local_action: stat path="files/{{ item.name }}-profile.json"
+  local_action: stat path="{{ role_path }}/files/{{ item.name }}-profile.json"
   register: vm_profile
   become: false
 
 - name: install vm rekall profile
   copy:
-    src: "files/{{ item.name }}-profile.json"
+    src: "{{ role_path }}/files/{{ item.name }}-profile.json"
     dest: "/etc/libvmi/{{ item.name}}-profile.json"
   when: vm_profile.stat.exists
 
@@ -48,7 +48,7 @@
 
 - name: install vm sysmap
   copy:
-    src: "files/{{ item.name }}.map"
+    src: "{{ role_path }}/files/{{ item.name }}.map"
     dest: "/etc/libvmi/{{ item.name}}.map"
   when: sysmap.stat.exists
 
