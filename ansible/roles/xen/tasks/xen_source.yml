@@ -30,11 +30,11 @@
     - python-devel
     - python3
     - python3-devel
-
+    - glibc-devel-2.28-27.fc29.i686
   when: ansible_distribution == 'Fedora'
 
 - name: configure Xen
-  command: ./configure --prefix=/usr --libdir=/usr/lib64 --enable-systemd
+  command: ./configure --enable-systemd
   args:
     chdir: /home/vagrant/xen
   become: false
@@ -50,6 +50,12 @@
   args:
     chdir: /home/vagrant/xen
 
+- name: update ld configuration
+  lineinfile:
+    path: /etc/ld.so.conf.d/local.conf
+    line: '/usr/local/lib'
+    create: yes
+
 - name: rebuild dynamic linker cache
   command: /sbin/ldconfig
 
@@ -61,9 +67,10 @@
   when: ansible_distribution == 'Fedora'
 
 - name: enable Xen system services
-  service:
+  systemd:
     name: "{{ item }}"
     enabled: yes
+    daemon_reload: yes
   with_items:
     - xen-init-dom0.service
     - xendomains.service
