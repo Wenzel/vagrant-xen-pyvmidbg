@@ -7,5 +7,5 @@
   when: ansible_distribution == 'Fedora'
 
 - name: update GRUB to boot on Xen kernel by default
-  command: grub2-set-default 'Advanced options for Fedora (with Xen hypervisor)>Xen hypervisor, version 4.10.1>Fedora, with Xen 4.10.1 and Linux 4.16.3-301.fc28.x86_64'
+  command: grub2-set-default '2'
   when: ansible_distribution == 'Fedora'
