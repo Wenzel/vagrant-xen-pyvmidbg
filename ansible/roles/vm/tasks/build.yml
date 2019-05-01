@@ -31,7 +31,7 @@
     state: directory
 
 - name: check if vm has a rekall profile
-  local_action: stat path="files/{{ item.name }}-profile.json"
+  local_action: stat path="{{ role_path }}/files/{{ item.name }}-profile.json"
   register: vm_profile
   become: false
 
@@ -42,7 +42,7 @@
   when: vm_profile.stat.exists
 
 - name: check if vm has a sysmap
-  local_action: stat path="files/{{ item.name }}.map"
+  local_action: stat path="{{ role_path }}/files/{{ item.name }}.map"
   register: sysmap
   become: false
 
