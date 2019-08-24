@@ -41,13 +41,13 @@
 - name: build libvmi
   command: make
   args:
-    chdir: "/home/vagrant/libvmi"
+    chdir: "/home/vagrant/libvmi/build"
   become: false
 
 - name: install libvmi
   command: make install
   args:
-    chdir: "/home/vagrant/libvmi"
+    chdir: "/home/vagrant/libvmi/build"
 
 - name: install libvmi python bindings dependencies
   package:
