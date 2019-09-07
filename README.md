@@ -25,7 +25,7 @@ Install the required `Vagrant` plugins:
 
 The choose a supported distribution and build the box:
 
-    $ cd ubuntu
+    $ cd fedora
     $ vagrant up --provider=libvirt
 
 Your `Vagrant` box is ready !
