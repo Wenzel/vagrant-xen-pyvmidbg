@@ -1,21 +1,11 @@
 ---
 - hosts: all
   become: true
-  gather_facts: false
   pre_tasks:
-    - name: install python and deps for ansible modules
-      raw: dnf install -y python2 python2-dnf libselinux-python
     - name: check for virtualization extensions in cpuinfo
       shell: egrep '(vmx|svm)' /proc/cpuinfo
     - name: gather facts
       setup:
-    # do not fully upgrade the system, as it will break Xen (packaged by Fedora)
-    # bug: https://bugzilla.redhat.com/show_bug.cgi?id=1701783
-        # - name: perform system upgrade
-        #   package:
-        #     name: '*'
-        #     state: latest
   roles:
     - xen
-    - { role: "partition", when: ansible_distribution != 'Fedora' }
     - remote
