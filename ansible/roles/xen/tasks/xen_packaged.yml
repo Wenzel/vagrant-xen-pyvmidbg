@@ -1,10 +1,17 @@
 ---
-- name: install Xen package
+- name: install Xen package (Fedora)
   package:
     name: "{{ item }}"
   with_items:
     - xen
   when: ansible_distribution == 'Fedora'
+
+- name: install Xen package (Ubuntu)
+  package:
+    name: "{{ item }}"
+  with_items:
+    - xen-hypervisor-amd64
+  when: ansible_distribution == 'Ubuntu'
 
 - name: update GRUB to boot on Xen kernel by default
   command: grub2-set-default '2'

@@ -1,5 +1,5 @@
 ---
-- name: install Libvirt
+- name: install Libvirt (Fedora)
   package:
     name: "{{ item }}"
   with_items:
@@ -10,6 +10,16 @@
     - python2-libvirt
     - python3-libvirt
   when: ansible_distribution == 'Fedora'
+
+- name: install Libvirt (Ubuntu)
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-daemon-system
+    - libvirt-daemon-driver-xen
+    - libvirt-clients
+    - python3-libvirt
+  when: ansible_distribution == 'Ubuntu'
 
 - name: add user to libvirt group
   user:
