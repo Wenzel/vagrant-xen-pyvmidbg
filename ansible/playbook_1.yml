@@ -6,6 +6,9 @@
       shell: egrep '(vmx|svm)' /proc/cpuinfo
     - name: gather facts
       setup:
+    - name: update apt cache
+      apt:
+        update_cache: yes
   roles:
     - xen
     - remote
