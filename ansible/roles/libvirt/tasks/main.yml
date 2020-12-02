@@ -27,10 +27,10 @@
     groups: libvirt
     append: yes
 
-- name: ensure libvirt daemon is started
+- name: ensure libvirt daemon is restarted
   service:
     name: libvirtd
-    state: started
+    state: restarted
 
 - name: set default network as autostart
   command: virsh -c xen:/// net-autostart default
