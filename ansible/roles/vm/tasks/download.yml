@@ -1,0 +1,9 @@
+- name: download VM image
+  get_url:
+    url: "{{ item.image_url }}"
+    dest: "/var/lib/libvirt/images/{{ item.name }}"
+    checksum: "{{ item.checksum_url }}"
+
+- name: set qcow path
+  set_fact:
+    qcow_path: "/var/lib/libvirt/images/{{ item.name }}"

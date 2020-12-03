@@ -1,6 +1,7 @@
 ---
 - include: packer.yml
 
+# ubuntu already has qemu-system-x86-xen installed, for Xen
 - name: install QEMU
   package:
     name: "{{ item }}"
@@ -13,10 +14,16 @@
     src: files/templates
     dest: /home/vagrant/
 
-- include: build.yml
+- include: setup.yml
   with_items:
-    - { name: 'winxp', ram: '512', packer_template: 'windows.json', packer_varfile: 'winxp.json' }
-    # - { name: 'ubuntu-xenial-server-32', ram: '512', packer_template: 'ubuntu.json', packer_varfile: 'ubuntu-16.04-server-i386.json' }
+    - {
+        name: 'winxp',
+        ram: '512',
+        packer_template: 'windows.json',
+        packer_varfile: 'winxp.json',
+        image_url: 'https://www.dropbox.com/s/0zycew5u3xnf8m7/winxp.qcow2?dl=1',
+        checksum_url: 'sha1:8550675150ee1601859c4665d49eb29005065446'
+      }
 
 - name: refresh libvirt pool
   command: virsh -c xen:/// pool-refresh default

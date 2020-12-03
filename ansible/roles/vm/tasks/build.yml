@@ -1,8 +1,10 @@
 ---
 - name: build vm with Packer
-  command: "packer build -var-file {{ item.packer_varfile }} {{ item.packer_template }}"
+  shell: "packer build -var-file {{ item.packer_varfile }} {{ item.packer_template }} > /tmp/packer.log"
   args:
     chdir: "/home/vagrant/templates"
+  environment:
+    PACKER_LOG: 1
   become: false
 
 - name: get qcow name

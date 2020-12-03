@@ -1,5 +1,5 @@
 ---
-- name: install Libvirt
+- name: install Libvirt (Fedora)
   package:
     name: "{{ item }}"
   with_items:
@@ -11,16 +11,26 @@
     - python3-libvirt
   when: ansible_distribution == 'Fedora'
 
+- name: install Libvirt (Ubuntu)
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libvirt-daemon-system
+    - libvirt-daemon-driver-xen
+    - libvirt-clients
+    - python3-libvirt
+  when: ansible_distribution == 'Ubuntu'
+
 - name: add user to libvirt group
   user:
     name: vagrant
     groups: libvirt
     append: yes
 
-- name: ensure libvirt daemon is started
+- name: ensure libvirt daemon is restarted
   service:
     name: libvirtd
-    state: started
+    state: restarted
 
 - name: set default network as autostart
   command: virsh -c xen:/// net-autostart default

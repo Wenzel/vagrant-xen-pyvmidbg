@@ -5,4 +5,4 @@
   with_items:
     - python3-docopt
     - python3-lxml
-  when: ansible_distribution == 'Fedora'
+  when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
