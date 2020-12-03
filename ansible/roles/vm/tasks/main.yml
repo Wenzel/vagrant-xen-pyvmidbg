@@ -1,12 +1,13 @@
 ---
 - include: packer.yml
 
+# ubuntu already has qemu-system-x86-xen installed, for Xen
 - name: install QEMU
   package:
     name: "{{ item }}"
   with_items:
     - qemu-system-x86
-  when: ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Fedora'
 
 - name: upload templates
   synchronize:
