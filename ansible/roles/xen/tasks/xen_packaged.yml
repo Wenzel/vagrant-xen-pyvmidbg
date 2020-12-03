@@ -11,6 +11,17 @@
     name: "{{ item }}"
   with_items:
     - xen-hypervisor-amd64
+    - xen-system-amd64
+    - qemu-system-x86-xen
+  when: ansible_distribution == 'Ubuntu'
+
+- name: fix qemu symlink (Ubuntu)
+  file:
+    src: /usr/bin/qemu-system-i386
+    dest: /usr/lib/xen-4.11/bin/qemu-system-i386
+    owner: root
+    group: root
+    state: link
   when: ansible_distribution == 'Ubuntu'
 
 - name: update GRUB to boot on Xen kernel by default
