@@ -1,4 +1,11 @@
 ---
+- name: install libselinux bindings
+  package:
+    name: "{{ item }}"
+  with_items:
+    - libselinux-python
+  when: ansible_distribution == 'Fedora'
+
 - name: enable password authentification in SSH
   lineinfile:
     dest: /etc/ssh/sshd_config
