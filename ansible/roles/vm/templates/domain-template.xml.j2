@@ -20,7 +20,7 @@
         <emulator>/usr/bin/qemu-system-i386</emulator>
         <disk type='file'>
             <driver name='qemu' type='qcow2'/>
-            <source file='/var/lib/libvirt/images/{{ qemu_output.files[0].path | basename }}'/>
+            <source file='{{ qcow_path }}'/>
             <target dev='hda'/>
         </disk>
         <interface type='network'>

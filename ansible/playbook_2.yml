@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: true
+  vars:
+    download_vm_image: true
   pre_tasks:
     - name: test Xen hypervisor
       slurp:
