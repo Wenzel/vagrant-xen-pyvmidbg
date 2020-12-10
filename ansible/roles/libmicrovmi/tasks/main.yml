@@ -1,0 +1,51 @@
+- name: install build essential
+  package:
+    name:
+      - build-essential
+      - clang
+
+- name: install xen dev headers
+  package:
+    name: libxen-dev
+
+- name: download rustup
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup.sh
+  become: false
+
+- name: install rust
+  shell: bash /tmp/rustup.sh -y
+  become: false
+
+- name: compile libmicrovmi
+  shell: ". /home/vagrant/.profile; cargo build --features xen"
+  args:
+    chdir: /vagrant/rust/libmicrovmi
+    executable: /bin/bash
+  become: false
+
+- name: install libmicrovmi library
+  command: cp target/debug/libmicrovmi.so /usr/local/lib
+  args:
+    chdir: /vagrant/rust/libmicrovmi
+
+
+- name: install cbindgen
+  shell: ". /home/vagrant/.profile;cargo install --force cbindgen"
+  args:
+    chdir: /vagrant/rust/libmicrovmi/c_examples
+    executable: /bin/bash
+  become: false
+
+- name: generate header
+  shell: ". /home/vagrant/.profile; make"
+  args:
+    chdir: /vagrant/rust/libmicrovmi/c_examples
+    executable: /bin/bash
+  become: false
+
+- name: install header
+  command: cp libmicrovmi.h /usr/local/include
+  args:
+    chdir: /vagrant/rust/libmicrovmi/c_examples

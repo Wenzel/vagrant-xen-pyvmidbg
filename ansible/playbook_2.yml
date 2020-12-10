@@ -2,7 +2,8 @@
 - hosts: all
   become: true
   vars:
-    download_vm_image: true
+    download_vm_image: false
+    libmicrovmi: false
   pre_tasks:
     - name: test Xen hypervisor
       slurp:
@@ -26,6 +27,8 @@
         - ipython3
   roles:
     - libvirt
+    - role: libmicrovmi
+      when: libmicrovmi
     - libvmi
     - pyvmidbg
     - vm
