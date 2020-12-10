@@ -17,7 +17,7 @@
     </features>
     <clock sync="localtime"/>
     <devices>
-        <emulator>/usr/bin/qemu-system-i386</emulator>
+        <emulator>/usr/lib/xen-4.11/bin/qemu-system-i386</emulator>
         <disk type='file'>
             <driver name='qemu' type='qcow2'/>
             <source file='{{ qcow_path }}'/>

@@ -8,12 +8,13 @@
   include: build.yml
   when: not download_vm_image
 
+- name: upload domain template
+  template:
+    src: domain-template.xml.j2
+    dest: /tmp/domain.xml
+
 - name: define vm in libvirt
-  virt:
-    name: "{{ item.name }}"
-    command: define
-    xml: "{{ lookup('template', 'domain-template.xml.j2')}}"
-    uri: 'qemu:///system'
+  command: "virsh -c xen:/// define /tmp/domain.xml"
 
 - name: ensure libvmi config dir is present
   file:
